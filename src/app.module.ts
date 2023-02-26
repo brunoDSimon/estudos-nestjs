@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { CoursesModule } from './courses/courses.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path/posix';
+import { TagEntity } from './courses/entities/tag.entity';
+import { CourseEntity } from './courses/entities/course.entity';
 
 @Module({
   imports: [CoursesModule, TypeOrmModule.forRoot({
@@ -11,8 +14,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     username: 'postgres',
     password: 'docker',
     database: 'course',
-    autoLoadEntities: true,
-    synchronize: false
+    autoLoadEntities: false,
+    synchronize: false,
+    entities: [
+      CourseEntity,
+      TagEntity
+    ],
   })
 ],
   controllers: [AppController],

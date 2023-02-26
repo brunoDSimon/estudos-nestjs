@@ -28,7 +28,7 @@ export class CoursesService {
     }
 
     public find(id) {
-        const response = this._courses.findOne({id:+id},{
+        const response = this._courses.findOne({id:id},{
             relations: [
                 'tags'
             ]
@@ -61,7 +61,7 @@ export class CoursesService {
         )
        let temId = await this._courses.preload(
         {
-            id:+id,
+            id:id,
             ...body, 
             tags
     }

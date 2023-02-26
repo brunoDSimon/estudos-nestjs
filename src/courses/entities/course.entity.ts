@@ -1,20 +1,33 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, CreateDateColumn, BeforeInsert } from 'typeorm';
 import { TagEntity } from './tag.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity('course')
 export class CourseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+  
     @Column()
     name: string;
-    
+  
     @Column()
     description: string;
-
-    @JoinTable()
-    @ManyToMany(() => TagEntity, (tag:TagEntity)=> tag.courses,{
-        cascade:true
+  
+    @JoinTable({ name: 'courses_tags' })
+    @ManyToMany(() => TagEntity, (tag) => tag.courses, {
+      cascade: true,
     })
-    tags: string[];
+    tags: TagEntity[];
+  
+    @CreateDateColumn({ type: 'timestamp' })
+    created_at: Date;
+  
+    @BeforeInsert()
+    generatedId() {
+      if (this.id) {
+        return;
+      }
+  
+      this.id = uuidv4();
+    }
 }
