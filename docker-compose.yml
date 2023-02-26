@@ -1,0 +1,40 @@
+version: '3'
+
+
+services:
+  app:
+    build: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: course-app
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - db
+  
+
+  db:
+    build: .docker/postgres
+    container_name: course-db
+    restart: always
+    tty: true
+    ports:
+      - "5432:5432"
+    volumes:
+      - .docker/dbdatatest:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=course
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: course-adm
+    tty: true
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
