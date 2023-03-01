@@ -4,7 +4,7 @@ module.exports = {
     pot: 5432,
     username: 'postgres',
     password: 'docker',
-    database: 'course-db',
+    database: 'course',
     autoLoadEntities: true,
     synchronize: true,
     entities: ['dist/**/*.entity.js'],

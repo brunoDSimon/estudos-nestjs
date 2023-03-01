@@ -75,3 +75,12 @@ docker run --name postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
 
 
 docker start postgres
+
+
+criar migration
+
+npx typeorm migration:create <PATH>
+
+rodar as migration
+
+npx typeorm migration:run -d dis/<DATABASE>
